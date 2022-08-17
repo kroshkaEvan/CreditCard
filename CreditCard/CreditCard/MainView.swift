@@ -22,7 +22,7 @@ struct MainView: View {
                 }
                 .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                 .frame(height: 300)
-                .indexViewStyle(.page(backgroundDisplayMode: .always))
+                .indexViewStyle(.page(backgroundDisplayMode: .interactive))
                 
                 Spacer().fullScreenCover(isPresented: $shouldPresentCardForm,
                                          onDismiss: nil) {
