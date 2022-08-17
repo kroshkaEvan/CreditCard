@@ -10,11 +10,11 @@ import SwiftUI
 struct CreditCardView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Visa Card")
+            Text("MasterCard")
                 .font(.system(size: 25,
                               weight: .bold))
             HStack {
-                Image("Visa")
+                Image("MasterCard")
                     .resizable()
                     .clipped()
                     .scaledToFit()
