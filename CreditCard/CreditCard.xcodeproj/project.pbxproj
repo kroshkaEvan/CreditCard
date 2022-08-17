@@ -12,6 +12,7 @@
 		BCEFD48828ACFA0100C74808 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCEFD48728ACFA0100C74808 /* Assets.xcassets */; };
 		BCEFD48B28ACFA0100C74808 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCEFD48A28ACFA0100C74808 /* Preview Assets.xcassets */; };
 		BCEFD49228AD301700C74808 /* CreditCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEFD49128AD301700C74808 /* CreditCardView.swift */; };
+		BCEFD49428AD41C600C74808 /* AddCreditCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEFD49328AD41C600C74808 /* AddCreditCard.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +22,7 @@
 		BCEFD48728ACFA0100C74808 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BCEFD48A28ACFA0100C74808 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BCEFD49128AD301700C74808 /* CreditCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardView.swift; sourceTree = "<group>"; };
+		BCEFD49328AD41C600C74808 /* AddCreditCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCreditCard.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,6 +57,7 @@
 			children = (
 				BCEFD48328ACF9FC00C74808 /* CreditCardApp.swift */,
 				BCEFD48528ACF9FC00C74808 /* MainView.swift */,
+				BCEFD49328AD41C600C74808 /* AddCreditCard.swift */,
 				BCEFD49128AD301700C74808 /* CreditCardView.swift */,
 				BCEFD48728ACFA0100C74808 /* Assets.xcassets */,
 				BCEFD48928ACFA0100C74808 /* Preview Content */,
@@ -140,6 +143,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BCEFD49428AD41C600C74808 /* AddCreditCard.swift in Sources */,
 				BCEFD48628ACF9FC00C74808 /* MainView.swift in Sources */,
 				BCEFD48428ACF9FC00C74808 /* CreditCardApp.swift in Sources */,
 				BCEFD49228AD301700C74808 /* CreditCardView.swift in Sources */,

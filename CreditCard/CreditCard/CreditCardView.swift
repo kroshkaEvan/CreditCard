@@ -47,3 +47,9 @@ struct CreditCardView: View {
             .padding(.top, 8)
     }
 }
+
+struct CreditCardView_Previews: PreviewProvider {
+    static var previews: some View {
+        CreditCardView()
+    }
+}
