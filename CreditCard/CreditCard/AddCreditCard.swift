@@ -44,7 +44,7 @@ struct AddCreditCard: View {
                 }
                 
                 Section(header: Text("Expiration date")) {
-                    Picker("Date",
+                    Picker("Month",
                            selection: $month) {
                         ForEach(1...12,
                                 id: \.self) { month in

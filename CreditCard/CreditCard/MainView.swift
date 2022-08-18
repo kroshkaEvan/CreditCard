@@ -30,8 +30,35 @@ struct MainView: View {
                 }
             }
             .navigationTitle("Credit Cards")
-            .navigationBarItems(trailing: addCardButton)
+            .navigationBarItems(leading: addItemButton,
+                                trailing: addCardButton)
         }
+    }
+    
+    var addItemButton: some View {
+        Button(action: {
+            withAnimation {
+                let viewContext = CoreDataController.shared.container.viewContext
+                let card = Card(context: viewContext)
+                card.timestamp = Date()
+
+                do {
+                    try viewContext.save()
+                } catch {
+                    
+                }
+            }
+        }, label: {
+            Text("Add Item")
+                .font(.system(size: 16,
+                              weight: .semibold))
+                .padding(EdgeInsets(top: 8,
+                                    leading: 8,
+                                    bottom: 8,
+                                    trailing: 8))
+                .foregroundColor(.blue)
+                .cornerRadius(7)
+        })
     }
     
     var addCardButton: some View {
@@ -52,7 +79,7 @@ struct MainView: View {
     }
 }
 
-struct ContentView_Previews: PreviewProvider {
+struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
     }

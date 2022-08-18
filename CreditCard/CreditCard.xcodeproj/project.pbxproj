@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		BC15EFFF28AE392C001BDB5F /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15EFFE28AE392C001BDB5F /* CoreDataController.swift */; };
+		BC15F00328AE39B9001BDB5F /* CreditCard.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC15F00128AE39B9001BDB5F /* CreditCard.xcdatamodeld */; };
 		BCEFD48428ACF9FC00C74808 /* CreditCardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEFD48328ACF9FC00C74808 /* CreditCardApp.swift */; };
 		BCEFD48628ACF9FC00C74808 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEFD48528ACF9FC00C74808 /* MainView.swift */; };
 		BCEFD48828ACFA0100C74808 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCEFD48728ACFA0100C74808 /* Assets.xcassets */; };
@@ -16,6 +18,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		BC15EFFE28AE392C001BDB5F /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
+		BC15F00228AE39B9001BDB5F /* CreditCard.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CreditCard.xcdatamodel; sourceTree = "<group>"; };
 		BCEFD48028ACF9FC00C74808 /* CreditCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreditCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCEFD48328ACF9FC00C74808 /* CreditCardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardApp.swift; sourceTree = "<group>"; };
 		BCEFD48528ACF9FC00C74808 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -36,6 +40,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BC15F00028AE3971001BDB5F /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				BC15EFFE28AE392C001BDB5F /* CoreDataController.swift */,
+				BC15F00128AE39B9001BDB5F /* CreditCard.xcdatamodeld */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
 		BCEFD47728ACF9FC00C74808 = {
 			isa = PBXGroup;
 			children = (
@@ -55,6 +68,7 @@
 		BCEFD48228ACF9FC00C74808 /* CreditCard */ = {
 			isa = PBXGroup;
 			children = (
+				BC15F00028AE3971001BDB5F /* Database */,
 				BCEFD48328ACF9FC00C74808 /* CreditCardApp.swift */,
 				BCEFD48528ACF9FC00C74808 /* MainView.swift */,
 				BCEFD49328AD41C600C74808 /* AddCreditCard.swift */,
@@ -145,7 +159,9 @@
 			files = (
 				BCEFD49428AD41C600C74808 /* AddCreditCard.swift in Sources */,
 				BCEFD48628ACF9FC00C74808 /* MainView.swift in Sources */,
+				BC15EFFF28AE392C001BDB5F /* CoreDataController.swift in Sources */,
 				BCEFD48428ACF9FC00C74808 /* CreditCardApp.swift in Sources */,
+				BC15F00328AE39B9001BDB5F /* CreditCard.xcdatamodeld in Sources */,
 				BCEFD49228AD301700C74808 /* CreditCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -349,6 +365,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		BC15F00128AE39B9001BDB5F /* CreditCard.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				BC15F00228AE39B9001BDB5F /* CreditCard.xcdatamodel */,
+			);
+			currentVersion = BC15F00228AE39B9001BDB5F /* CreditCard.xcdatamodel */;
+			path = CreditCard.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = BCEFD47828ACF9FC00C74808 /* Project object */;
 }
