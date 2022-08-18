@@ -11,26 +11,41 @@ struct MainView: View {
     
     @State var shouldPresentCardForm = false
     
+    @Environment(\.managedObjectContext) private var viewContext
+
+    @FetchRequest(
+        sortDescriptors: [NSSortDescriptor(keyPath: \Card.timestamp,
+                                           ascending: true)],
+        animation: .default)
+    
+    private var cards: FetchedResults<Card>
+    
     var body: some View {
         NavigationView{
             ScrollView{
-                TabView{
-                    ForEach(0..<5) { num in
-                        CreditCardView()
-                            .padding(.bottom, 50)
+                if !cards.isEmpty {
+                    TabView{
+                        ForEach(cards) { card in
+                            CreditCardView()
+                                .padding(.bottom, 50)
+                        }
                     }
-                }
-                .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-                .frame(height: 300)
-                .indexViewStyle(.page(backgroundDisplayMode: .interactive))
-                
-                Spacer().fullScreenCover(isPresented: $shouldPresentCardForm,
-                                         onDismiss: nil) {
-                    AddCreditCard()
+                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
+                    .frame(height: 300)
+                    .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+                    
+                    Spacer().fullScreenCover(isPresented: $shouldPresentCardForm,
+                                             onDismiss: nil) {
+                        AddCreditCard()
+                    }
                 }
             }
             .navigationTitle("Credit Cards")
-            .navigationBarItems(leading: addItemButton,
+            .navigationBarItems(leading:
+                                    HStack{
+                addItemButton
+                deleteItemButton
+            },
                                 trailing: addCardButton)
         }
     }
@@ -61,6 +76,31 @@ struct MainView: View {
         })
     }
     
+    var deleteItemButton: some View {
+        Button(action: {
+            withAnimation {
+                cards.forEach {card in
+                    viewContext.delete(card)
+                }
+                do {
+                    try viewContext.save()
+                } catch {
+                    
+                }
+            }
+        }, label: {
+            Text("Delete Item")
+                .font(.system(size: 16,
+                              weight: .semibold))
+                .padding(EdgeInsets(top: 8,
+                                    leading: 8,
+                                    bottom: 8,
+                                    trailing: 8))
+                .foregroundColor(.blue)
+                .cornerRadius(7)
+        })
+    }
+    
     var addCardButton: some View {
         Button(action: {
             shouldPresentCardForm.toggle()
@@ -79,8 +119,10 @@ struct MainView: View {
     }
 }
 
-struct MainView_Previews: PreviewProvider {
+struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
+        let viewContext = CoreDataController.shared.container.viewContext
         MainView()
+            .environment(\.managedObjectContext, viewContext)
     }
 }
