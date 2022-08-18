@@ -65,14 +65,42 @@ struct AddCreditCard: View {
                     ColorPicker("Choose your card second color", selection: $secondColor)
                 }
             }
-                .navigationTitle("Add credit card")
-                .navigationBarItems(leading:
-                    Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }, label: {
-                    Text("Cancel")
-                }))
+            .navigationTitle("Add credit card")
+            .navigationBarItems(leading: cancelButton,
+                                trailing: saveButton)
         }
+    }
+    
+    private var cancelButton: some View{
+        Button(action: {
+            presentationMode.wrappedValue.dismiss()
+        }, label: {
+            Text("Cancel")
+        })
+    }
+    
+    private var saveButton: some View{
+        Button(action: {
+            let viewContext = CoreDataController.shared.container.viewContext
+            let card = Card(context: viewContext)
+            card.name = self.name
+            card.timestamp = Date()
+            card.year = Int16(self.year)
+            card.month = Int16(self.month)
+            card.limit = Int32(self.creditLimit) ?? 0
+            card.number = self.cardNumber
+            card.firstColor = UIColor(self.firstColor).encode()
+            card.secondColor = UIColor(self.secondColor).encode()
+            card.typeSystem = self.paymentSystem
+            do {
+                try viewContext.save()
+                presentationMode.wrappedValue.dismiss()
+            } catch {
+                
+            }
+        }, label: {
+            Text("Save")
+        })
     }
 }
 
