@@ -72,15 +72,15 @@ struct AddCreditCard: View {
     }
     
     private var cancelButton: some View{
-        Button(action: {
+        Button {
             presentationMode.wrappedValue.dismiss()
-        }, label: {
+        } label: {
             Text("Cancel")
-        })
+        }
     }
     
     private var saveButton: some View{
-        Button(action: {
+        Button {
             let viewContext = CoreDataController.shared.container.viewContext
             let card = Card(context: viewContext)
             card.name = self.name
@@ -98,9 +98,9 @@ struct AddCreditCard: View {
             } catch {
                 
             }
-        }, label: {
+        } label: {
             Text("Save")
-        })
+        }
     }
 }
 

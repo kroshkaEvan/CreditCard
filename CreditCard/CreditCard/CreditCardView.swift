@@ -10,11 +10,41 @@ import SwiftUI
 struct CreditCardView: View {
     let card: Card
     
+    @State var shouldShowActionSheet = false
+    
+    private func didTapDelete() {
+        let viewContext = CoreDataController.shared.container.viewContext
+        viewContext.delete(card)
+    }
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text(card.name ?? "Your name")
-                .font(.system(size: 25,
-                              weight: .bold))
+            HStack{
+                Text(card.name ?? "Your name")
+                    .font(.system(size: 25,
+                                  weight: .bold,
+                                  design: .monospaced))
+                Spacer()
+                Button {
+                    shouldShowActionSheet.toggle()
+                } label: {
+                    Image(systemName: "ellipsis")
+                        .font(.system(size: 30,
+                                      weight: .bold,
+                                      design: .monospaced))
+                }
+                .actionSheet(isPresented: $shouldShowActionSheet) {
+                    .init(title: Text(self.card.name ?? ""),
+                          message: Text("Options"),
+                          buttons: [
+                            .destructive(Text("Delete card"),
+                                         action:
+                                            didTapDelete),
+                            .cancel()
+                          ])
+                }
+            }
+
             HStack {
                 Image(card.typeSystem ?? "MasterCard")
                     .resizable()

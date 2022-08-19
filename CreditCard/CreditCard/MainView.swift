@@ -12,7 +12,7 @@ struct MainView: View {
     @State var shouldPresentCardForm = false
     
     @Environment(\.managedObjectContext) private var viewContext
-
+    
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Card.timestamp,
                                            ascending: true)],
@@ -51,19 +51,19 @@ struct MainView: View {
     }
     
     var addItemButton: some View {
-        Button(action: {
+        Button {
             withAnimation {
                 let viewContext = CoreDataController.shared.container.viewContext
                 let card = Card(context: viewContext)
                 card.timestamp = Date()
-
+                
                 do {
                     try viewContext.save()
                 } catch {
                     
                 }
             }
-        }, label: {
+        } label: {
             Text("Add Item")
                 .font(.system(size: 16,
                               weight: .semibold))
@@ -73,11 +73,11 @@ struct MainView: View {
                                     trailing: 8))
                 .foregroundColor(.blue)
                 .cornerRadius(7)
-        })
+        }
     }
     
     var deleteItemButton: some View {
-        Button(action: {
+        Button {
             withAnimation {
                 cards.forEach {card in
                     viewContext.delete(card)
@@ -88,7 +88,7 @@ struct MainView: View {
                     
                 }
             }
-        }, label: {
+        } label: {
             Text("Delete Item")
                 .font(.system(size: 16,
                               weight: .semibold))
@@ -98,13 +98,13 @@ struct MainView: View {
                                     trailing: 8))
                 .foregroundColor(.blue)
                 .cornerRadius(7)
-        })
+        }
     }
     
     var addCardButton: some View {
-        Button(action: {
+        Button {
             shouldPresentCardForm.toggle()
-        }, label: {
+        } label: {
             Text("+ Card")
                 .font(.system(size: 16,
                               weight: .semibold))
@@ -115,7 +115,7 @@ struct MainView: View {
                 .background(Image("creditCard"))
                 .foregroundColor(.white)
                 .cornerRadius(7)
-        })
+        }
     }
 }
 
