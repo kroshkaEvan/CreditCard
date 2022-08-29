@@ -11,10 +11,17 @@ struct CreditCardView: View {
     let card: Card
     
     @State var shouldShowActionSheet = false
+    @State var shouldShowEditForm = false
+    @State var refreshID = UUID()
     
     private func didTapDelete() {
-        let viewContext = CoreDataController.shared.container.viewContext
+        let viewContext = CoreDataManager.shared.container.viewContext
         viewContext.delete(card)
+        do {
+            try viewContext.save()
+        } catch {
+            
+        }
     }
     
     var body: some View {
@@ -37,6 +44,10 @@ struct CreditCardView: View {
                     .init(title: Text(self.card.name ?? ""),
                           message: Text("Options"),
                           buttons: [
+                            .default(Text("Edit"),
+                                     action: {
+                                         shouldShowEditForm.toggle()
+                                     }),
                             .destructive(Text("Delete card"),
                                          action:
                                             didTapDelete),
@@ -57,6 +68,7 @@ struct CreditCardView: View {
             }
             
             Text(card.number ?? "**** **** **** ****")
+                .font(.system(size: 30, weight: .semibold))
             
             Text("Credit limit: \(card.limit) $")
             
@@ -92,6 +104,10 @@ struct CreditCardView: View {
                     radius: 8)
             .padding(.horizontal)
             .padding(.top, 8)
+            .fullScreenCover(isPresented: $shouldShowEditForm) {
+                Text("Edit form")
+                AddCreditCard(card: self.card)
+            }
     }
 }
 

@@ -9,10 +9,33 @@ import SwiftUI
 
 struct AddCreditCard: View {
     
+    let card: Card?
+    
+    init(card: Card? = nil) {
+        self.card = card
+        _name = State(initialValue: self.card?.name ?? "")
+        _cardNumber = State(initialValue: self.card?.number ?? "")
+        if let limit = card?.limit {
+            _limit = State(initialValue:String(limit))
+        }
+        _month = State(initialValue: Int(self.card?.month ?? 1))
+        _year = State(initialValue: Int(self.card?.year ?? Int16(currentYaer)))
+        _paymentSystem = State(initialValue: self.card?.typeSystem ?? "")
+        if let firstData = self.card?.firstColor,
+           let secondData = self.card?.secondColor,
+           let firstColor = UIColor.color(data: firstData),
+           let secondColor = UIColor.color(data: secondData) {
+            let first = Color(firstColor)
+            let second = Color(secondColor)
+            _firstColor = State(initialValue: first)
+            _secondColor = State(initialValue: second)
+        }
+    }
+    
     @Environment(\.presentationMode) var presentationMode
     
     @State var name = ""
-    @State var creditLimit = ""
+    @State var limit = ""
     @State var cardNumber = ""
     @State var paymentSystem = "MasterCard"
     @State var month = 1
@@ -32,7 +55,7 @@ struct AddCreditCard: View {
                               text: $cardNumber)
                         .keyboardType(.numberPad)
                     TextField("Credit limit",
-                              text: $creditLimit)
+                              text: $limit)
                         .keyboardType(.numberPad)
                     Picker("Payment system",
                            selection: $paymentSystem) {
@@ -65,7 +88,7 @@ struct AddCreditCard: View {
                     ColorPicker("Choose your card second color", selection: $secondColor)
                 }
             }
-            .navigationTitle("Add credit card")
+            .navigationTitle(self.card != nil ? self.card?.name ?? ""  : "Add credit card")
             .navigationBarItems(leading: cancelButton,
                                 trailing: saveButton)
         }
@@ -81,13 +104,14 @@ struct AddCreditCard: View {
     
     private var saveButton: some View{
         Button {
-            let viewContext = CoreDataController.shared.container.viewContext
-            let card = Card(context: viewContext)
+            let viewContext = CoreDataManager.shared.container.viewContext
+//            guard let selfCard = self.card else {return}
+            let card = self.card != nil ? self.card! : Card(context: viewContext)
             card.name = self.name
             card.timestamp = Date()
             card.year = Int16(self.year)
             card.month = Int16(self.month)
-            card.limit = Int32(self.creditLimit) ?? 0
+            card.limit = Int32(self.limit) ?? 0
             card.number = self.cardNumber
             card.firstColor = UIColor(self.firstColor).encode()
             card.secondColor = UIColor(self.secondColor).encode()

@@ -7,9 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		BC15EFFF28AE392C001BDB5F /* CoreDataController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15EFFE28AE392C001BDB5F /* CoreDataController.swift */; };
+		BC15EFFF28AE392C001BDB5F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15EFFE28AE392C001BDB5F /* CoreDataManager.swift */; };
 		BC15F00328AE39B9001BDB5F /* CreditCard.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC15F00128AE39B9001BDB5F /* CreditCard.xcdatamodeld */; };
 		BCBC330128AEC1DB00BCF355 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBC330028AEC1DB00BCF355 /* Extensions.swift */; };
+		BCBC331F28B79B2F00BCF355 /* AddTransactionForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBC331E28B79B2F00BCF355 /* AddTransactionForm.swift */; };
 		BCEFD48428ACF9FC00C74808 /* CreditCardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEFD48328ACF9FC00C74808 /* CreditCardApp.swift */; };
 		BCEFD48628ACF9FC00C74808 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCEFD48528ACF9FC00C74808 /* MainView.swift */; };
 		BCEFD48828ACFA0100C74808 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BCEFD48728ACFA0100C74808 /* Assets.xcassets */; };
@@ -19,9 +20,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		BC15EFFE28AE392C001BDB5F /* CoreDataController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataController.swift; sourceTree = "<group>"; };
+		BC15EFFE28AE392C001BDB5F /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		BC15F00228AE39B9001BDB5F /* CreditCard.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CreditCard.xcdatamodel; sourceTree = "<group>"; };
 		BCBC330028AEC1DB00BCF355 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		BCBC331E28B79B2F00BCF355 /* AddTransactionForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionForm.swift; sourceTree = "<group>"; };
 		BCEFD48028ACF9FC00C74808 /* CreditCard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CreditCard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCEFD48328ACF9FC00C74808 /* CreditCardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreditCardApp.swift; sourceTree = "<group>"; };
 		BCEFD48528ACF9FC00C74808 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -45,10 +47,27 @@
 		BC15F00028AE3971001BDB5F /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				BC15EFFE28AE392C001BDB5F /* CoreDataController.swift */,
+				BC15EFFE28AE392C001BDB5F /* CoreDataManager.swift */,
 				BC15F00128AE39B9001BDB5F /* CreditCard.xcdatamodeld */,
 			);
 			path = Database;
+			sourceTree = "<group>";
+		};
+		BCBC331C28B79ADB00BCF355 /* CreditCard */ = {
+			isa = PBXGroup;
+			children = (
+				BCEFD49128AD301700C74808 /* CreditCardView.swift */,
+				BCEFD49328AD41C600C74808 /* AddCreditCard.swift */,
+			);
+			path = CreditCard;
+			sourceTree = "<group>";
+		};
+		BCBC331D28B79AE700BCF355 /* Transaction */ = {
+			isa = PBXGroup;
+			children = (
+				BCBC331E28B79B2F00BCF355 /* AddTransactionForm.swift */,
+			);
+			path = Transaction;
 			sourceTree = "<group>";
 		};
 		BCEFD47728ACF9FC00C74808 = {
@@ -70,11 +89,11 @@
 		BCEFD48228ACF9FC00C74808 /* CreditCard */ = {
 			isa = PBXGroup;
 			children = (
+				BCBC331D28B79AE700BCF355 /* Transaction */,
+				BCBC331C28B79ADB00BCF355 /* CreditCard */,
 				BC15F00028AE3971001BDB5F /* Database */,
 				BCEFD48328ACF9FC00C74808 /* CreditCardApp.swift */,
 				BCEFD48528ACF9FC00C74808 /* MainView.swift */,
-				BCEFD49328AD41C600C74808 /* AddCreditCard.swift */,
-				BCEFD49128AD301700C74808 /* CreditCardView.swift */,
 				BCEFD48728ACFA0100C74808 /* Assets.xcassets */,
 				BCEFD48928ACFA0100C74808 /* Preview Content */,
 				BCBC330028AEC1DB00BCF355 /* Extensions.swift */,
@@ -162,10 +181,11 @@
 			files = (
 				BCEFD49428AD41C600C74808 /* AddCreditCard.swift in Sources */,
 				BCEFD48628ACF9FC00C74808 /* MainView.swift in Sources */,
-				BC15EFFF28AE392C001BDB5F /* CoreDataController.swift in Sources */,
+				BC15EFFF28AE392C001BDB5F /* CoreDataManager.swift in Sources */,
 				BCEFD48428ACF9FC00C74808 /* CreditCardApp.swift in Sources */,
 				BC15F00328AE39B9001BDB5F /* CreditCard.xcdatamodeld in Sources */,
 				BCEFD49228AD301700C74808 /* CreditCardView.swift in Sources */,
+				BCBC331F28B79B2F00BCF355 /* AddTransactionForm.swift in Sources */,
 				BCBC330128AEC1DB00BCF355 /* Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

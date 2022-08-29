@@ -9,7 +9,7 @@ import SwiftUI
 
 @main
 struct CreditCardApp: App {
-    let coreDataController = CoreDataController.shared
+    let coreDataController = CoreDataManager.shared
 
     var body: some Scene {
         WindowGroup {

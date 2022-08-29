@@ -10,12 +10,13 @@ import SwiftUI
 struct MainView: View {
     
     @State var shouldPresentCardForm = false
+    @State var shouldShowTransactionForm = false
     
     @Environment(\.managedObjectContext) private var viewContext
-    
+
     @FetchRequest(
         sortDescriptors: [NSSortDescriptor(keyPath: \Card.timestamp,
-                                           ascending: true)],
+                                           ascending: false)],
         animation: .default)
     
     private var cards: FetchedResults<Card>
@@ -23,6 +24,11 @@ struct MainView: View {
     var body: some View {
         NavigationView{
             ScrollView{
+                Spacer().fullScreenCover(isPresented: $shouldPresentCardForm,
+                                         onDismiss: nil) {
+                    AddCreditCard()
+                }
+                
                 if !cards.isEmpty {
                     TabView{
                         ForEach(cards) { card in
@@ -33,11 +39,30 @@ struct MainView: View {
                     .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
                     .frame(height: 300)
                     .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+                    .navigationBarItems(trailing:
+                                    addCardButton
+                    )
                     
-                    Spacer().fullScreenCover(isPresented: $shouldPresentCardForm,
-                                             onDismiss: nil) {
-                        AddCreditCard()
+                    Text("Get started by adding your first transaction")
+                    Button {
+                        shouldShowTransactionForm.toggle()
+                    } label: {
+                        Text("+ Transaction")
+                            .padding(EdgeInsets(top: 15,
+                                                leading: 15,
+                                                bottom: 15,
+                                                trailing: 15))
+                            .background(.blue)
+                            .foregroundColor(.white)
+                            .cornerRadius(10)
+                            .font(.headline)
                     }
+                    .fullScreenCover(isPresented: $shouldShowTransactionForm) {
+                        AddTransactionForm()
+                    }
+
+                } else {
+                    emptyMessage
                 }
             }
             .navigationTitle("Credit Cards")
@@ -45,18 +70,44 @@ struct MainView: View {
                                     HStack{
                 addItemButton
                 deleteItemButton
-            },
-                                trailing: addCardButton)
+            })
         }
+    }
+    
+    var emptyMessage: some View {
+        VStack {
+            Text("You currently have no cards in the system")
+                .padding(.horizontal, 50)
+                .padding(.vertical)
+                .multilineTextAlignment(.center)
+            Button {
+                shouldPresentCardForm.toggle()
+            } label: {
+                Text("+ Add first card")
+                    .foregroundColor(.white)
+                    .font(.system(size: 25,
+                                  weight: .bold,
+                                  design: .default))
+            }
+            .padding(EdgeInsets(top: 15,
+                                leading: 15,
+                                bottom: 15,
+                                trailing: 15))
+            .background(.blue)
+            .cornerRadius(10)
+        }
+        .font(.system(size: 24,
+                      weight: .semibold,
+                      design: .monospaced))
     }
     
     var addItemButton: some View {
         Button {
             withAnimation {
-                let viewContext = CoreDataController.shared.container.viewContext
+                let viewContext = CoreDataManager.shared.container.viewContext
                 let card = Card(context: viewContext)
                 card.timestamp = Date()
-                
+
                 do {
                     try viewContext.save()
                 } catch {
@@ -121,7 +172,7 @@ struct MainView: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        let viewContext = CoreDataController.shared.container.viewContext
+        let viewContext = CoreDataManager.shared.container.viewContext
         MainView()
             .environment(\.managedObjectContext, viewContext)
     }
