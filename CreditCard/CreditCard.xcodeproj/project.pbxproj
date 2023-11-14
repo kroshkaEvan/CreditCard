@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		51CE51E12B036AA90026F2B6 /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CE51E02B036AA90026F2B6 /* WalletView.swift */; };
 		BC15EFFF28AE392C001BDB5F /* CoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = BC15EFFE28AE392C001BDB5F /* CoreDataManager.swift */; };
 		BC15F00328AE39B9001BDB5F /* CreditCard.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = BC15F00128AE39B9001BDB5F /* CreditCard.xcdatamodeld */; };
 		BCBC330128AEC1DB00BCF355 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCBC330028AEC1DB00BCF355 /* Extensions.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		51CE51E02B036AA90026F2B6 /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		BC15EFFE28AE392C001BDB5F /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		BC15F00228AE39B9001BDB5F /* CreditCard.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = CreditCard.xcdatamodel; sourceTree = "<group>"; };
 		BCBC330028AEC1DB00BCF355 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 			children = (
 				BCEFD49128AD301700C74808 /* CreditCardView.swift */,
 				BCEFD49328AD41C600C74808 /* AddCreditCard.swift */,
+				51CE51E02B036AA90026F2B6 /* WalletView.swift */,
 			);
 			path = CreditCard;
 			sourceTree = "<group>";
@@ -185,6 +188,7 @@
 				BCEFD48428ACF9FC00C74808 /* CreditCardApp.swift in Sources */,
 				BC15F00328AE39B9001BDB5F /* CreditCard.xcdatamodeld in Sources */,
 				BCEFD49228AD301700C74808 /* CreditCardView.swift in Sources */,
+				51CE51E12B036AA90026F2B6 /* WalletView.swift in Sources */,
 				BCBC331F28B79B2F00BCF355 /* AddTransactionForm.swift in Sources */,
 				BCBC330128AEC1DB00BCF355 /* Extensions.swift in Sources */,
 			);

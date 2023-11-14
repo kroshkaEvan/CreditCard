@@ -79,9 +79,9 @@ struct CreditCardView: View {
                     if let firstColorData = card.firstColor,
                        let firstUIColor = UIColor.color(data: firstColorData),
                        let secondColorData = card.secondColor,
-                       let secondUIColor = UIColor.color(data: secondColorData),
-                       let firstColor = Color(firstUIColor),
-                       let secondColor = Color(secondUIColor) {
+                       let secondUIColor = UIColor.color(data: secondColorData) {
+                        let firstColor = Color(firstUIColor)
+                        let secondColor = Color(secondUIColor)
                         LinearGradient(gradient:
                                         Gradient(colors: [firstColor,
                                                           secondColor]),

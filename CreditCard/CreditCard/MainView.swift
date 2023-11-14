@@ -20,46 +20,23 @@ struct MainView: View {
         animation: .default)
     
     private var cards: FetchedResults<Card>
-    
+                
     var body: some View {
         NavigationView{
-            ScrollView{
+            VStack{
                 Spacer().fullScreenCover(isPresented: $shouldPresentCardForm,
                                          onDismiss: nil) {
                     AddCreditCard()
                 }
-                
+                Spacer()
                 if !cards.isEmpty {
-                    TabView{
-                        ForEach(cards) { card in
-                            CreditCardView(card: card)
-                                .padding(.bottom, 50)
-                        }
-                    }
-                    .tabViewStyle(PageTabViewStyle(indexDisplayMode: .always))
-                    .frame(height: 300)
-                    .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+                        let cardsArray: [Card] = Array(cards)
+                        WalletView().environmentObject(Wallet(cards: cardsArray))
+                    .frame(height: 600)
                     .navigationBarItems(trailing:
                                     addCardButton
                     )
-                    
-                    Text("Get started by adding your first transaction")
-                    Button {
-                        shouldShowTransactionForm.toggle()
-                    } label: {
-                        Text("+ Transaction")
-                            .padding(EdgeInsets(top: 15,
-                                                leading: 15,
-                                                bottom: 15,
-                                                trailing: 15))
-                            .background(.blue)
-                            .foregroundColor(.white)
-                            .cornerRadius(10)
-                            .font(.headline)
-                    }
-                    .fullScreenCover(isPresented: $shouldShowTransactionForm) {
-                        AddTransactionForm()
-                    }
+
 
                 } else {
                     emptyMessage
