@@ -163,9 +163,3 @@ extension AnyTransition {
         return AnyTransition.move(edge: .bottom).combined(with: .opacity)
     }
 }
-
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        WalletView().environmentObject(Wallet(cards: cards))
-//    }
-//}

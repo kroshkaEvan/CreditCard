@@ -96,8 +96,8 @@
 				BCBC331C28B79ADB00BCF355 /* CreditCard */,
 				BC15F00028AE3971001BDB5F /* Database */,
 				BCEFD48328ACF9FC00C74808 /* CreditCardApp.swift */,
-				BCEFD48528ACF9FC00C74808 /* MainView.swift */,
 				BCEFD48728ACFA0100C74808 /* Assets.xcassets */,
+				BCEFD48528ACF9FC00C74808 /* MainView.swift */,
 				BCEFD48928ACFA0100C74808 /* Preview Content */,
 				BCBC330028AEC1DB00BCF355 /* Extensions.swift */,
 			);

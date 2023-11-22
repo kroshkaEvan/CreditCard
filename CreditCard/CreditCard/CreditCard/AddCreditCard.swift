@@ -15,12 +15,8 @@ struct AddCreditCard: View {
         self.card = card
         _name = State(initialValue: self.card?.name ?? "")
         _cardNumber = State(initialValue: self.card?.number ?? "")
-        if let limit = card?.limit {
-            _limit = State(initialValue:String(limit))
-        }
-        _month = State(initialValue: Int(self.card?.month ?? 1))
-        _year = State(initialValue: Int(self.card?.year ?? Int16(currentYaer)))
-        _paymentSystem = State(initialValue: self.card?.typeSystem ?? "")
+        _securityCode = State(initialValue: self.card?.code ?? "")
+        _expirationDate = State(initialValue: self.card?.date?.convertDateToExpirationDateString() ?? "")
         if let firstData = self.card?.firstColor,
            let secondData = self.card?.secondColor,
            let firstColor = UIColor.color(data: firstData),
@@ -35,87 +31,92 @@ struct AddCreditCard: View {
     @Environment(\.presentationMode) var presentationMode
     
     @State var name = ""
-    @State var limit = ""
+    @State var securityCode = ""
     @State var cardNumber = ""
-    @State var paymentSystem = "MasterCard"
-    @State var month = 1
-    @State var year = Calendar.current.component(.year, from: Date())
-    @State var firstColor = Color.pink
-    @State var secondColor = Color.blue
-
+    @State var firstColor = Color.purple
+    @State var secondColor = Color.cyan
+    @State var expirationDate: String = ""
+    
+    private var expirationBinding: Binding<String> {
+        Binding(
+            get: { self.expirationDate },
+            set: { newValue in
+                if newValue.count <= 5 {
+                    let filtered = newValue.filter { "0123456789".contains($0) }
+                    if filtered.count <= 4 {
+                        self.expirationDate = filtered.chunked(into: 2).joined(separator: "/")
+                    }
+                }
+            }
+        )
+    }
+    
     let currentYaer = Calendar.current.component(.year, from: Date())
     
     var body: some View {
-        NavigationView{
-            Form{
-                Section(header: Text("Card information")) {
-                    TextField("Name",
-                              text: $name)
-                    TextField("Card number",
-                              text: $cardNumber)
-                        .keyboardType(.numberPad)
-                    TextField("Credit limit",
-                              text: $limit)
-                        .keyboardType(.numberPad)
-                    Picker("Payment system",
-                           selection: $paymentSystem) {
-                        ForEach(["MasterCard", "Visa", "UnionPay"],
-                                id: \.self) { system in
-                            Text(String(system)).tag(String(system))
-                        }
-                    }.pickerStyle(.segmented)
+        VStack{
+            HStack {
+                VStack {
+                    Text("+ Add Cerd")
+                        .font(
+                            Font.system(size: 20, weight: .bold, design: .monospaced)
+                        )
+                        .foregroundColor(.white.opacity(0.87))
+                        .frame(height: 28, alignment: .topLeading)
+                    Text("Add your debit/credit card")
+                        .font(Font.system(size: 15, weight: .light, design: .default))
+                        .foregroundColor(Color(red: 0.48, green: 0.47, blue: 0.67))
+                        .frame(height: 28, alignment: .topLeading)
                 }
-                
-                Section(header: Text("Expiration date")) {
-                    Picker("Month",
-                           selection: $month) {
-                        ForEach(1...12,
-                                id: \.self) { month in
-                            Text(String(month)).tag(String(month))
-                        }
-                    }
-                    Picker("Year",
-                           selection: $year) {
-                        ForEach(currentYaer...currentYaer+10,
-                                id: \.self) { year in
-                            Text(String(year)).tag(String(year))
-                        }
-                    }
+                .padding()
+                VStack {
+                    ColorPicker("", selection: $firstColor)
+                    ColorPicker("", selection: $secondColor)
                 }
-                
-                Section(header: Text("Card color")) {
-                    ColorPicker("Choose your card first color", selection: $firstColor)
-                    ColorPicker("Choose your card second color", selection: $secondColor)
-                }
+                .padding()
             }
-            .navigationTitle(self.card != nil ? self.card?.name ?? ""  : "Add credit card")
-            .navigationBarItems(leading: cancelButton,
-                                trailing: saveButton)
+            Spacer()
+            AddCreditCaedTextField(text: cardNumber,
+                                   name: "Card number")
+            .keyboardType(.numberPad)
+            Spacer()
+            AddCreditCaedTextField(text: name,
+                                   name: "Card holder name")
+            Spacer()
+            HStack {
+                self.expirationTextField
+                Spacer()
+                self.securityCodeTextField
+            }
+            Spacer()
+            self.saveButton
+            Spacer()
         }
+        .background(
+            LinearGradient(
+                stops: [
+                    Gradient.Stop(color: Color(red: 0.19, green: 0.18, blue: 0.41), location: 0.00),
+                    Gradient.Stop(color: Color(red: 0.15, green: 0.14, blue: 0.31), location: 1.00),
+                ],
+                startPoint: UnitPoint(x: 0.08, y: -0.11),
+                endPoint: UnitPoint(x: 0.76, y: 0.87)
+            )
+        )
     }
+}
+
+extension AddCreditCard {
     
-    private var cancelButton: some View{
-        Button {
-            presentationMode.wrappedValue.dismiss()
-        } label: {
-            Text("Cancel")
-        }
-    }
-    
-    private var saveButton: some View{
+    var saveButton: some View {
         Button {
             let viewContext = CoreDataManager.shared.container.viewContext
-//            guard let selfCard = self.card else {return}
             let card = self.card != nil ? self.card! : Card(context: viewContext)
             card.name = self.name
-            card.timestamp = Date()
-            card.year = Int16(self.year)
-            card.month = Int16(self.month)
-            card.limit = Int32(self.limit) ?? 0
+            card.code = self.securityCode
+            card.date = self.expirationDate.convertExpirationDateToDate()
             card.number = self.cardNumber
             card.firstColor = UIColor(self.firstColor).encode()
             card.secondColor = UIColor(self.secondColor).encode()
-            card.typeSystem = self.paymentSystem
             do {
                 try viewContext.save()
                 presentationMode.wrappedValue.dismiss()
@@ -124,12 +125,91 @@ struct AddCreditCard: View {
             }
         } label: {
             Text("Save")
+                .foregroundColor(.white.opacity(0.87))
+                .frame(maxWidth: .infinity)
+                .frame(height: 44)
+                .background(
+                    LinearGradient(
+                        stops: [
+                            Gradient.Stop(color: Color(red: 0.05, green: 0.65, blue: 0.76), location: 0.00),
+                            Gradient.Stop(color: Color(red: 0.05, green: 0.22, blue: 0.78), location: 1.00),
+                        ],
+                        startPoint: UnitPoint(x: 0.3, y: 0),
+                        endPoint: UnitPoint(x: 0.87, y: 1.91)
+                    )
+                    .cornerRadius(15)
+                )
         }
+        .padding(.horizontal, 20)
+    }
+    
+    var expirationTextField: some View {
+        TextField("Expiration Date",
+                  text: expirationBinding)
+        .font(
+            Font.system(size: 20, weight: .bold, design: .monospaced)
+        )
+        .foregroundColor(Color(red: 0.48, green: 0.47, blue: 0.67))
+        .cornerRadius(15)
+        .frame(height: 44)
+        .padding(.horizontal, 15)
+        .background(Color(red: 0.1, green: 0.09, blue: 0.24).opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 15))
+        .padding([.leading], 20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(.white.opacity(0.6), lineWidth: 1)
+                .padding([.leading], 20))
+    }
+    
+    var securityCodeTextField: some View {
+        TextField("Security Code",
+                  text: $securityCode)
+        .keyboardType(.numberPad)
+        .font(
+            Font.system(size: 20, weight: .bold, design: .monospaced)
+        )
+        .foregroundColor(Color(red: 0.48, green: 0.47, blue: 0.67))
+        .cornerRadius(15)
+        .frame(height: 44)
+        .padding(.horizontal, 15)
+        .background(Color(red: 0.1, green: 0.09, blue: 0.24).opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 15))
+        .padding([.trailing], 20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(.white.opacity(0.6), lineWidth: 1)
+                .padding([.trailing], 20))
     }
 }
 
 struct AddCreditCard_Previews: PreviewProvider {
     static var previews: some View {
         AddCreditCard()
+    }
+}
+
+struct AddCreditCaedTextField: View {
+    @State var text: String
+    
+    var name: String
+
+    var body: some View {
+        TextField(name,
+                  text: $text)
+        .font(
+            Font.system(size: 20, weight: .bold, design: .monospaced)
+        )
+        .foregroundColor(Color(red: 0.48, green: 0.47, blue: 0.67))
+        .cornerRadius(15)
+        .frame(height: 44)
+        .padding(.horizontal, 15)
+        .background(Color(red: 0.1, green: 0.09, blue: 0.24).opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 15))
+        .padding(.horizontal, 20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(.white.opacity(0.6), lineWidth: 1)
+                .padding(.horizontal, 20))
     }
 }

@@ -11,6 +11,7 @@ struct MainView: View {
     
     @State var shouldPresentCardForm = false
     @State var shouldShowTransactionForm = false
+    @State private var selectedSegment = "Cards"
     
     @Environment(\.managedObjectContext) private var viewContext
 
@@ -22,33 +23,59 @@ struct MainView: View {
     private var cards: FetchedResults<Card>
                 
     var body: some View {
-        NavigationView{
-            VStack{
-                Spacer().fullScreenCover(isPresented: $shouldPresentCardForm,
-                                         onDismiss: nil) {
+        ZStack(alignment: .top) {
+            ScrollView {
+                VStack {
+                    Picker("Options", selection: $selectedSegment) {
+                        Text("Cards").tag("Cards")
+                        Text("Account").tag("Account")
+                    }
+                    .pickerStyle(.segmented)
+                    .padding([.top], 30)
+                    
+                    if !cards.isEmpty {
+                        TabView {
+                            let cardsArray: [Card] = Array(cards)
+                            WalletView().environmentObject(Wallet(cards: cardsArray))
+                                .padding([.top], 50)
+                        }
+                        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+                        .frame(height: 400)
+                        .indexViewStyle(.page(backgroundDisplayMode: .interactive))
+                        .padding(.vertical, 10)
+                    } else {
+                        emptyMessage
+                    }
+                    
+                    HStack(alignment: .center) {
+                        MenuButton(action: { },
+                                   imageName: "Send2",
+                                   scaleEffect: 1)
+                        Spacer()
+                        MenuButton(action: { },
+                                   imageName: "Wallet",
+                                   scaleEffect: 1)
+                        Spacer()
+                        MenuButton(action: { },
+                                   imageName: "Send",
+                                   scaleEffect: 2)
+                        Spacer()
+                        MenuButton(action: {},
+                                   imageName: "Stats",
+                                   scaleEffect: 1)
+                        
+                    }
+                    .frame(alignment: .center)
+                    .padding([.leading, .trailing], 20)
+                    
                     AddCreditCard()
-                }
-                Spacer()
-                if !cards.isEmpty {
-                        let cardsArray: [Card] = Array(cards)
-                        WalletView().environmentObject(Wallet(cards: cardsArray))
-                    .frame(height: 600)
-                    .navigationBarItems(trailing:
-                                    addCardButton
-                    )
-
-
-                } else {
-                    emptyMessage
+                        .frame(alignment: .center)
+                        .cornerRadius(30)
+                        .padding([.all], 20)
                 }
             }
-            .navigationTitle("Credit Cards")
-            .navigationBarItems(leading:
-                                    HStack{
-                addItemButton
-                deleteItemButton
-            })
         }
+        .background(Color(red: 0.1, green: 0.09, blue: 0.24))
     }
     
     var emptyMessage: some View {
@@ -57,93 +84,10 @@ struct MainView: View {
                 .padding(.horizontal, 50)
                 .padding(.vertical)
                 .multilineTextAlignment(.center)
-            Button {
-                shouldPresentCardForm.toggle()
-            } label: {
-                Text("+ Add first card")
-                    .foregroundColor(.white)
-                    .font(.system(size: 25,
-                                  weight: .bold,
-                                  design: .default))
-            }
-            .padding(EdgeInsets(top: 15,
-                                leading: 15,
-                                bottom: 15,
-                                trailing: 15))
-            .background(.blue)
-            .cornerRadius(10)
         }
         .font(.system(size: 24,
                       weight: .semibold,
                       design: .monospaced))
-    }
-    
-    var addItemButton: some View {
-        Button {
-            withAnimation {
-                let viewContext = CoreDataManager.shared.container.viewContext
-                let card = Card(context: viewContext)
-                card.timestamp = Date()
-
-                do {
-                    try viewContext.save()
-                } catch {
-                    
-                }
-            }
-        } label: {
-            Text("Add Item")
-                .font(.system(size: 16,
-                              weight: .semibold))
-                .padding(EdgeInsets(top: 8,
-                                    leading: 8,
-                                    bottom: 8,
-                                    trailing: 8))
-                .foregroundColor(.blue)
-                .cornerRadius(7)
-        }
-    }
-    
-    var deleteItemButton: some View {
-        Button {
-            withAnimation {
-                cards.forEach {card in
-                    viewContext.delete(card)
-                }
-                do {
-                    try viewContext.save()
-                } catch {
-                    
-                }
-            }
-        } label: {
-            Text("Delete Item")
-                .font(.system(size: 16,
-                              weight: .semibold))
-                .padding(EdgeInsets(top: 8,
-                                    leading: 8,
-                                    bottom: 8,
-                                    trailing: 8))
-                .foregroundColor(.blue)
-                .cornerRadius(7)
-        }
-    }
-    
-    var addCardButton: some View {
-        Button {
-            shouldPresentCardForm.toggle()
-        } label: {
-            Text("+ Card")
-                .font(.system(size: 16,
-                              weight: .semibold))
-                .padding(EdgeInsets(top: 8,
-                                    leading: 8,
-                                    bottom: 8,
-                                    trailing: 8))
-                .background(Image("creditCard"))
-                .foregroundColor(.white)
-                .cornerRadius(7)
-        }
     }
 }
 
@@ -152,5 +96,39 @@ struct ContentView_Previews: PreviewProvider {
         let viewContext = CoreDataManager.shared.container.viewContext
         MainView()
             .environment(\.managedObjectContext, viewContext)
+    }
+}
+
+struct MenuButton: View {
+    var action: () -> Void
+
+    var imageName: String
+    
+    var scaleEffect: Double
+    
+    var body: some View {
+        Button {
+            self.action()
+        } label: {
+            Image(imageName)
+                .resizable()
+                .scaleEffect(scaleEffect)
+                .frame(width: 45,
+                       height: 45,
+                       alignment: .center)
+                .padding()
+                .background(
+                    LinearGradient(
+                        stops: [
+                            Gradient.Stop(color: Color(red: 0.12, green: 0.11, blue: 0.29), location: 0.00),
+                            Gradient.Stop(color: Color(red: 0.12, green: 0.11, blue: 0.29), location: 0.00),
+                            Gradient.Stop(color: Color(red: 0.2, green: 0.19, blue: 0.46), location: 1.00),
+                        ],
+                        startPoint: UnitPoint(x: 0.78, y: 0.55),
+                        endPoint: UnitPoint(x: 0.17, y: 0.05)
+                    )
+                )
+                .cornerRadius(20)
+        }
     }
 }

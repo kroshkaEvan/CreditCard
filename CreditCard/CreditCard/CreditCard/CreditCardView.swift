@@ -25,55 +25,31 @@ struct CreditCardView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 14) {
-            HStack{
-                Text(card.name ?? "Your name")
-                    .font(.system(size: 25,
-                                  weight: .bold,
-                                  design: .monospaced))
-                Spacer()
-                Button {
-                    shouldShowActionSheet.toggle()
-                } label: {
-                    Image(systemName: "ellipsis")
-                        .font(.system(size: 30,
-                                      weight: .bold,
-                                      design: .monospaced))
-                }
-                .actionSheet(isPresented: $shouldShowActionSheet) {
-                    .init(title: Text(self.card.name ?? ""),
-                          message: Text("Options"),
-                          buttons: [
-                            .default(Text("Edit"),
-                                     action: {
-                                         shouldShowEditForm.toggle()
-                                     }),
-                            .destructive(Text("Delete card"),
-                                         action:
-                                            didTapDelete),
-                            .cancel()
-                          ])
-                }
-            }
-
-            HStack {
-                Image(card.typeSystem ?? "MasterCard")
-                    .resizable()
-                    .clipped()
-                    .scaledToFit()
-                    .frame(height: 70)
-                Spacer()
-                Text("Balance: 6,000 $")
-                    .font(.system(size: 18, weight: .semibold))
-            }
-            
-            Text(card.number ?? "**** **** **** ****")
-                .font(.system(size: 30, weight: .semibold))
-            
-            Text("Credit limit: \(card.limit) $")
-            
-            HStack{ Spacer() }
-        }.padding()
+        GeometryReader { (geometry) in
+            VStack(alignment: .center, spacing: 0) {
+                Group {
+                    Spacer()
+                    self.editButton
+                    HStack(alignment: .center) {
+                        self.chip(for: geometry)
+                        Spacer()
+                        self.contactLess(for: geometry)
+                    }.padding(.horizontal)
+                    VStack(spacing: 5) {
+                        self.cardNumber
+                        self.expiration
+                    }.padding(.bottom, geometry.size.height / 100)
+                    ZStack(alignment: .center) {
+                        self.cardHolderName
+                        HStack {
+                            Spacer()
+                            self.cardLogo(for: geometry)
+                        }
+                    }.padding(.horizontal)
+                    Spacer()
+                }.shadow(color: .gray, radius: 5, x: 0, y: 0)
+            }.frame(width: geometry.size.width,
+                    height: geometry.size.width / CGFloat(1.7))
             .background(
                 VStack{
                     if let firstColorData = card.firstColor,
@@ -96,23 +72,88 @@ struct CreditCardView: View {
                     }
                 }
             )
-            .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color.yellow,
-                                                               lineWidth: 2))
-            .foregroundColor(.white)
             .cornerRadius(10)
-            .shadow(color: .gray,
-                    radius: 8)
-            .padding(.horizontal)
-            .padding(.top, 8)
-            .fullScreenCover(isPresented: $shouldShowEditForm) {
-                Text("Edit form")
-                AddCreditCard(card: self.card)
-            }
+            .shadow(radius: 10)
+        }
     }
 }
-
-//struct CreditCardView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CreditCardView(card: card)
-//    }
-//}
+    
+extension CreditCardView {
+    
+    var editButton: some View {
+        Button {
+            shouldShowActionSheet.toggle()
+        } label: {
+            Image(systemName: "ellipsis")
+                .font(.system(size: 30,
+                              weight: .bold,
+                              design: .monospaced))
+        }
+        .actionSheet(isPresented: $shouldShowActionSheet) {
+            .init(title: Text(self.card.name ?? ""),
+                  message: Text("Options"),
+                  buttons: [
+                    .default(Text("Edit"),
+                             action: {
+                                 shouldShowEditForm.toggle()
+                             }),
+                    .destructive(Text("Delete card"),
+                                 action:
+                                    didTapDelete),
+                    .cancel()
+                  ])
+        }
+        .frame(height: 44, alignment: .topTrailing)
+    }
+    
+    var expiration: some View {
+        VStack(alignment: .center, spacing: 3) {
+            Group {
+                Text("MONTH/YEAR").font(.system(size: 12))
+                Text("\(card.date?.convertDateToExpirationDateString() ?? "")")
+                    .font(.system(size: 15))
+            }
+            .foregroundColor(.white)
+        }
+    }
+    
+    func cardLogo(for geometry: GeometryProxy) -> some View {
+        Image(card.number?.determineCardType() ?? "MasterCard")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(height: geometry.size.height / 18)
+            .fixedSize()
+    }
+    
+    var cardHolderName: some View {
+        Text(card.name ?? "Your name")
+            .minimumScaleFactor(2)
+            .font(.system(size: 16))
+            .shadow(radius: 3)
+            .padding(.horizontal)
+            .foregroundColor(.white)
+    }
+    
+    var cardNumber: some View {
+        Text(card.number?.addingSpacesEveryFourCharacters() ?? "**** **** **** ****")
+            .font(.system(size: 23, weight: .medium))
+            .foregroundColor(.white)
+    }
+    
+    func chip(for geometry: GeometryProxy) -> some View {
+        Image("Chip")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(height: geometry.size.height / 12)
+            .fixedSize()
+    }
+    
+    func contactLess(for geometry: GeometryProxy) -> some View {
+        Image("Wifi") //radiowaves.right")
+            .resizable()
+            .aspectRatio(contentMode: .fit)
+            .frame(width: geometry.size.height / 15)
+            .fixedSize()
+    }
+    
+}
