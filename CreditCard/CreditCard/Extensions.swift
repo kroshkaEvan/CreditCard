@@ -51,7 +51,7 @@ extension String {
             components.day = 0
             return Calendar.current.date(from: components)
         }
-        return nil
+        return Date()
     }
     
     func determineCardType() -> String? {

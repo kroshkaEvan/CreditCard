@@ -57,16 +57,16 @@ struct AddCreditCard: View {
         VStack{
             HStack {
                 VStack {
-                    Text("+ Add Cerd")
-                        .font(
-                            Font.system(size: 20, weight: .bold, design: .monospaced)
-                        )
+                    Text("+ Add Card")
+                        .font(Font.system(size: 20, weight: .bold, design: .monospaced))
                         .foregroundColor(.white.opacity(0.87))
-                        .frame(height: 28, alignment: .topLeading)
+                        .frame(width: 200, height: 28, alignment: .leading)
+                        .padding(.leading, 25)
                     Text("Add your debit/credit card")
                         .font(Font.system(size: 15, weight: .light, design: .default))
                         .foregroundColor(Color(red: 0.48, green: 0.47, blue: 0.67))
-                        .frame(height: 28, alignment: .topLeading)
+                        .frame(width: 200, height: 28, alignment: .leading)
+                        .padding(.leading, 25)
                 }
                 .padding()
                 VStack {
@@ -76,12 +76,12 @@ struct AddCreditCard: View {
                 .padding()
             }
             Spacer()
-            AddCreditCaedTextField(text: cardNumber,
-                                   name: "Card number")
+            setTextField(text: $cardNumber,
+                         name: "Card number")
             .keyboardType(.numberPad)
             Spacer()
-            AddCreditCaedTextField(text: name,
-                                   name: "Card holder name")
+            setTextField(text: $name,
+                         name: "Card holder name")
             Spacer()
             HStack {
                 self.expirationTextField
@@ -180,6 +180,26 @@ extension AddCreditCard {
             RoundedRectangle(cornerRadius: 15)
                 .stroke(.white.opacity(0.6), lineWidth: 1)
                 .padding([.trailing], 20))
+    }
+    
+    func setTextField(text: Binding<String>,
+                      name: String) -> some View {
+        TextField(name,
+                  text: text)
+        .font(
+            Font.system(size: 20, weight: .bold, design: .monospaced)
+        )
+        .foregroundColor(Color(red: 0.48, green: 0.47, blue: 0.67))
+        .cornerRadius(15)
+        .frame(height: 44)
+        .padding(.horizontal, 15)
+        .background(Color(red: 0.1, green: 0.09, blue: 0.24).opacity(0.5))
+        .clipShape(RoundedRectangle(cornerRadius: 15))
+        .padding(.horizontal, 20)
+        .overlay(
+            RoundedRectangle(cornerRadius: 15)
+                .stroke(.white.opacity(0.6), lineWidth: 1)
+                .padding(.horizontal, 20))
     }
 }
 

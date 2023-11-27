@@ -121,7 +121,7 @@ extension CreditCardView {
         Image(card.number?.determineCardType() ?? "MasterCard")
             .resizable()
             .aspectRatio(contentMode: .fit)
-            .frame(height: geometry.size.height / 18)
+            .frame(height: geometry.size.height / 8)
             .fixedSize()
     }
     
@@ -135,7 +135,7 @@ extension CreditCardView {
     }
     
     var cardNumber: some View {
-        Text(card.number?.addingSpacesEveryFourCharacters() ?? "**** **** **** ****")
+        Text(card.number ?? "**** **** **** ****")
             .font(.system(size: 23, weight: .medium))
             .foregroundColor(.white)
     }

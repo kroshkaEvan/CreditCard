@@ -40,7 +40,7 @@ struct MainView: View {
                                 .padding([.top], 50)
                         }
                         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
-                        .frame(height: 400)
+                        .frame(minHeight: 350)
                         .indexViewStyle(.page(backgroundDisplayMode: .interactive))
                         .padding(.vertical, 10)
                     } else {
@@ -63,7 +63,6 @@ struct MainView: View {
                         MenuButton(action: {},
                                    imageName: "Stats",
                                    scaleEffect: 1)
-                        
                     }
                     .frame(alignment: .center)
                     .padding([.leading, .trailing], 20)
