@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import SwiftUI
 
 extension UIColor {
     class func color(data: Data) -> UIColor?{
@@ -19,6 +20,16 @@ extension UIColor {
         return try?
         NSKeyedArchiver.archivedData(withRootObject: self,
                                      requiringSecureCoding: false)
+    }
+}
+
+extension Color {
+    static func getRandomColor() -> Color {
+        let red = Double.random(in: 0...1)
+        let green = Double.random(in: 0...1)
+        let blue = Double.random(in: 0...1)
+
+        return Color(red: red, green: green, blue: blue)
     }
 }
 
@@ -82,5 +93,10 @@ extension Date {
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
         return dateFormatter.string(from: self)
+    }
+    
+    static func addMonth(_ value: Int) -> Self {
+        let calendar = Calendar.current
+        return calendar.date(byAdding: .month, value: value, to: .init()) ?? .init()
     }
 }
