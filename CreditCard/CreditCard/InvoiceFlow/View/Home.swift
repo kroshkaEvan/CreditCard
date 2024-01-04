@@ -11,7 +11,7 @@ import Charts
 struct Home: View {
     var size: CGSize
     @State private var selectedSegment = "Description invoice"
-
+    @State private var shouldShowCreateInvoiceForm = false
     
     var invoices = MockData.shared.invoices
     
@@ -72,20 +72,6 @@ struct Home: View {
                             .shadow(color: .white.opacity(0.05), radius: 10, x: 0, y: -15)
                     }
             }
-//            ScrollView(.vertical, showsIndicators: false) {
-//                VStack(spacing: 15) {
-//                    BottomScrollContent()
-//                }
-//                .padding(.top, 30)
-//                .padding([.horizontal, .bottom], 15)
-//            }
-//            .background {
-//                CustomCorners(corners: [.topLeft, .topRight], radius: 30)
-//                    .fill(.gray)
-//                    .ignoresSafeArea()
-//                    .shadow(color: .white.opacity(0.05), radius: 10, x: 0, y: -15)
-//            }
-//            .padding(.top, 20)
         }
         .background {
             Rectangle()
@@ -182,6 +168,9 @@ struct Home: View {
                 .allowsHitTesting(!showDetailTranView)
             }
         }
+        .fullScreenCover(isPresented: $shouldShowCreateInvoiceForm) {
+            CreateInvoiceView()
+        }
     }
     
     @ViewBuilder
@@ -268,21 +257,9 @@ struct Home: View {
     
     @ViewBuilder
     func BottomScrollContent() -> some View {
-//        VStack(alignment: .center, spacing: 8) {
-//            Text("Profile")
-//                .font(.title3.bold())
-//            Image("profile")
-//                .resizable()
-//                .aspectRatio(contentMode: .fill)
-//                .frame(width: 100, height: 100)
-//                .cornerRadius(40)
-//        }
-//        .padding(.horizontal, 15)
-//        .padding(.top, 10)
+
         TabView {
             VStack(alignment: .center, spacing: 8) {
-//                Text("Statistic")
-//                    .font(.title3.bold())
                 HStack {
                     Text("Last 6 months")
                         .font(.caption)
@@ -394,8 +371,12 @@ struct Home: View {
                                 .onTapGesture {
                                     if expandInvoices {
                                         selectedInvoice = invoice
-                                        withAnimation(.easeInOut (duration: 0.3)) {
-                                            showDetailView = true
+                                        if invoice.number == "Create invoice" {
+                                            shouldShowCreateInvoiceForm = true
+                                        } else {
+                                            withAnimation(.easeInOut (duration: 0.3)) {
+                                                showDetailView = true
+                                            }
                                         }
                                         DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                                             withAnimation(.easeInOut (duration: 0.3)) {

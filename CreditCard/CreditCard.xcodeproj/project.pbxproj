@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		51881C672B21EEEF00D96149 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51881C662B21EEEF00D96149 /* MainTabView.swift */; };
+		51881C692B21EFDD00D96149 /* AnalitycsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51881C682B21EFDD00D96149 /* AnalitycsView.swift */; };
+		51881C6B2B21EFF200D96149 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51881C6A2B21EFF200D96149 /* ProfileView.swift */; };
+		51881C6D2B21F30D00D96149 /* CreateInvoiceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51881C6C2B21F30D00D96149 /* CreateInvoiceView.swift */; };
 		51CE51E12B036AA90026F2B6 /* WalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CE51E02B036AA90026F2B6 /* WalletView.swift */; };
 		51CF63762B17642900D1000B /* InvoiceMainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CF63752B17642900D1000B /* InvoiceMainView.swift */; };
 		51CF63782B17645C00D1000B /* InvoiceModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 51CF63772B17645C00D1000B /* InvoiceModel.swift */; };
@@ -26,6 +30,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		51881C662B21EEEF00D96149 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		51881C682B21EFDD00D96149 /* AnalitycsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalitycsView.swift; sourceTree = "<group>"; };
+		51881C6A2B21EFF200D96149 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		51881C6C2B21F30D00D96149 /* CreateInvoiceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateInvoiceView.swift; sourceTree = "<group>"; };
 		51CE51E02B036AA90026F2B6 /* WalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalletView.swift; sourceTree = "<group>"; };
 		51CF63752B17642900D1000B /* InvoiceMainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceMainView.swift; sourceTree = "<group>"; };
 		51CF63772B17645C00D1000B /* InvoiceModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvoiceModel.swift; sourceTree = "<group>"; };
@@ -79,8 +87,12 @@
 			isa = PBXGroup;
 			children = (
 				51CF63752B17642900D1000B /* InvoiceMainView.swift */,
+				51881C6C2B21F30D00D96149 /* CreateInvoiceView.swift */,
 				51CF63792B18BE5D00D1000B /* Home.swift */,
 				51CF637B2B18CAA600D1000B /* CustomCorners.swift */,
+				51881C662B21EEEF00D96149 /* MainTabView.swift */,
+				51881C682B21EFDD00D96149 /* AnalitycsView.swift */,
+				51881C6A2B21EFF200D96149 /* ProfileView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -230,6 +242,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BCEFD49428AD41C600C74808 /* AddCreditCard.swift in Sources */,
+				51881C692B21EFDD00D96149 /* AnalitycsView.swift in Sources */,
 				51CF637C2B18CAA600D1000B /* CustomCorners.swift in Sources */,
 				51CF63782B17645C00D1000B /* InvoiceModel.swift in Sources */,
 				51CF63762B17642900D1000B /* InvoiceMainView.swift in Sources */,
@@ -237,12 +250,15 @@
 				51CF637E2B1DCFA000D1000B /* InvoiceRectKey.swift in Sources */,
 				BC15EFFF28AE392C001BDB5F /* CoreDataManager.swift in Sources */,
 				BCEFD48428ACF9FC00C74808 /* CreditCardApp.swift in Sources */,
+				51881C6B2B21EFF200D96149 /* ProfileView.swift in Sources */,
+				51881C6D2B21F30D00D96149 /* CreateInvoiceView.swift in Sources */,
 				BC15F00328AE39B9001BDB5F /* CreditCard.xcdatamodeld in Sources */,
 				BCEFD49228AD301700C74808 /* CreditCardView.swift in Sources */,
 				51CE51E12B036AA90026F2B6 /* WalletView.swift in Sources */,
 				BCBC331F28B79B2F00BCF355 /* EditCardView.swift in Sources */,
 				51CF637A2B18BE5D00D1000B /* Home.swift in Sources */,
 				BCBC330128AEC1DB00BCF355 /* Extensions.swift in Sources */,
+				51881C672B21EEEF00D96149 /* MainTabView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
