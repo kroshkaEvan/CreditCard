@@ -13,9 +13,9 @@ struct CreditCardApp: App {
 
     var body: some Scene {
         WindowGroup {
-            MainTabView()
-//            MainView()
-//                .environment(\.managedObjectContext, coreDataController.container.viewContext)
+//            MainTabView()
+            MainView()
+                .environment(\.managedObjectContext, coreDataController.container.viewContext)
         }
     }
 }

@@ -35,8 +35,6 @@ struct EditCardView: View {
                     } label: {
                         Text("Many to many")
                     }
-
-                    
                 }
                 
                 Section(header: Text("Photo")) {
